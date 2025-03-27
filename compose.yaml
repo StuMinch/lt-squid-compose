@@ -1,0 +1,23 @@
+version: "3"
+services:
+  flask-hello-world:
+    image: "sminch/flask-hello-world:0.0.1"
+    command: ""
+    network_mode: host
+  squidproxy:
+    image: "ubuntu/squid"
+    command: ""
+    network_mode: host
+    volumes: 
+      - ./squid.conf:/etc/squid/squid.conf
+  lt-tunnel:
+    image: "lambdatest/tunnel:latest"
+    environment:
+      LT_USERNAME: ${LT_USERNAME}
+      LT_ACCESS_KEY: ${LT_ACCESS_KEY}
+    command: "--config /opt/lt-tunnel.yaml --proxy-host 127.0.0.1:3128"
+    network_mode: host
+    volumes: 
+      - ./lt-tunnel.yaml:/opt/lt-tunnel.yaml
+    depends_on:
+      - squidproxy
