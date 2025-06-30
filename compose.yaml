@@ -15,7 +15,8 @@ services:
     environment:
       LT_USERNAME: ${LT_USERNAME}
       LT_ACCESS_KEY: ${LT_ACCESS_KEY}
-    command: "--config /opt/lt-tunnel.yaml --proxy-host 127.0.0.1:3128"
+      HTTP_PROXY: ${HTTP_PROXY}
+    command: "--config /opt/lt-tunnel.yaml --egress-only --load-balanced --bypassHosts *.apple.com,*.apple.news,*.gvt1.com,*.google.com,*.googleapis.com,*.cloudfront.net,*.akamaihd.net,*.gstatic.com,*.mozilla.net,*.icloud.com"
     network_mode: host
     volumes: 
       - ./lt-tunnel.yaml:/opt/lt-tunnel.yaml
